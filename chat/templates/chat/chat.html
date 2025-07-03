@@ -295,17 +295,33 @@
         /* Typing Indicator */
         .typing-indicator {
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 16px;
             padding: 20px 0;
             opacity: 0;
             transform: translateY(20px);
             transition: var(--transition);
+            max-width: 80%;
+            align-self: flex-start;
         }
 
         .typing-indicator.active {
             opacity: 1;
             transform: translateY(0);
+        }
+
+        .typing-indicator .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            flex-shrink: 0;
+            background: linear-gradient(135deg, var(--secondary), var(--primary));
+            color: var(--text-primary);
         }
 
         .typing-dots {
@@ -719,77 +735,33 @@
         // DOM Elements
         const chatBox = document.getElementById('chat-box');
         const userInput = document.getElementById('user-message');
-        const sendButton = document.getElementById('send-btn');
+        const sendBtn = document.getElementById('send-btn');
         const typingIndicator = document.getElementById('typing-indicator');
         const welcomeMessage = document.getElementById('welcome-message');
 
-        // Auto-resize textarea
-        userInput.addEventListener('input', function() {
-            this.style.height = 'auto';
-            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
-            
-            // Enable/disable send button
-            sendButton.disabled = !this.value.trim();
-        });
-
-        // Handle Enter key
-        userInput.addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault();
-                sendMessage();
+        // Your specified AI interaction code
+        sendBtn.addEventListener('click', () => {
+            const msg = userInput.value.trim();
+            if (msg) {
+                // Hide welcome message
+                if (welcomeMessage) {
+                    welcomeMessage.style.display = 'none';
+                }
+                
+                addMessage('user-message', msg);
+                userInput.value = '';
+                userInput.style.height = 'auto';
+                sendMessage(msg);
             }
         });
 
-        // Send message function
-        function sendMessage() {
-            const message = userInput.value.trim();
-            if (!message) return;
-
-            // Hide welcome message
-            if (welcomeMessage) {
-                welcomeMessage.style.display = 'none';
-            }
-
-            // Add user message
-            addMessage('user-message', message);
-            
-            // Clear input
-            userInput.value = '';
-            userInput.style.height = 'auto';
-            sendButton.disabled = true;
-
-            // Show typing indicator
-            showTypingIndicator();
-
-            // Send to Django backend
-            fetch('/chat/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded',
-                    'X-CSRFToken': getCookie('csrftoken')
-                },
-                body: 'user_message=' + encodeURIComponent(message)
-            })
-            .then(response => response.text())
-            .then(reply => {
-                hideTypingIndicator();
-                addMessage('ai-response', reply);
-            })
-            .catch(error => {
-                hideTypingIndicator();
-                addMessage('ai-response', '<i class="bx bx-error-circle"></i> Sorry, I encountered an error. Please try again.');
-                console.error('Error:', error);
-            });
-        }
-
-        // Add message to chat
         function addMessage(type, content) {
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${type}`;
+            const msg = document.createElement('div');
+            msg.className = 'message ' + type;
             
+            // Enhanced message structure for better UI
             const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            
-            messageDiv.innerHTML = `
+            msg.innerHTML = `
                 <div class="message-avatar">
                     ${type === 'user-message' ? '<i class="bx bx-user"></i>' : '<i class="bx bx-bot"></i>'}
                 </div>
@@ -801,9 +773,57 @@
                 </div>
             `;
             
-            chatBox.appendChild(messageDiv);
+            chatBox.appendChild(msg);
             chatBox.scrollTop = chatBox.scrollHeight;
         }
+
+        function sendMessage(message) {
+            // Show typing indicator
+            showTypingIndicator();
+            
+            fetch('/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: 'user_message=' + encodeURIComponent(message)
+            })
+            .then(res => res.text())
+            .then(reply => {
+                hideTypingIndicator();
+                addMessage('ai-response', reply);
+            })
+            .catch(err => {
+                hideTypingIndicator();
+                addMessage('ai-response', "<i>Error fetching response</i>");
+            });
+        }
+
+        // UI Enhancement Functions
+        // Auto-resize textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 120) + 'px';
+        });
+
+        // Handle Enter key
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                const msg = userInput.value.trim();
+                if (msg) {
+                    // Hide welcome message
+                    if (welcomeMessage) {
+                        welcomeMessage.style.display = 'none';
+                    }
+                    
+                    addMessage('user-message', msg);
+                    userInput.value = '';
+                    userInput.style.height = 'auto';
+                    sendMessage(msg);
+                }
+            }
+        });
 
         // Show typing indicator
         function showTypingIndicator() {
@@ -819,7 +839,15 @@
         // Send suggestion
         function sendSuggestion(suggestion) {
             userInput.value = suggestion;
-            sendMessage();
+            // Hide welcome message
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+            
+            addMessage('user-message', suggestion);
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            sendMessage(suggestion);
         }
 
         // Clear chat
@@ -864,28 +892,16 @@
                         </div>
                     </div>
                 `;
+                
+                // Reassign the typing indicator reference
+                const typingIndicator = document.getElementById('typing-indicator');
+                const welcomeMessage = document.getElementById('welcome-message');
             }
         }
 
         // Toggle settings
         function toggleSettings() {
             alert('Settings panel coming soon!');
-        }
-
-        // Get CSRF token
-        function getCookie(name) {
-            let cookieValue = null;
-            if (document.cookie && document.cookie !== '') {
-                const cookies = document.cookie.split(';');
-                for (let i = 0; i < cookies.length; i++) {
-                    const cookie = cookies[i].trim();
-                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
         }
 
         // Initialize

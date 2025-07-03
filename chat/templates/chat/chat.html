@@ -1,188 +1,2086 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>CoderX AI</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet" />
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CoderX AI - Next Generation Chat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00f5ff;
+            --primary-dark: #00d4ff;
+            --primary-light: #4df8ff;
+            --primary-glow: rgba(0, 245, 255, 0.5);
+            --secondary: #8b5cf6;
+            --secondary-dark: #7c3aed;
+            --accent: #f59e0b;
+            --accent-dark: #d97706;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-quaternary: #222222;
+            --bg-glass: rgba(255, 255, 255, 0.03);
+            --bg-glass-strong: rgba(255, 255, 255, 0.08);
+            --bg-glass-ultra: rgba(255, 255, 255, 0.12);
+            
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d1;
+            --text-tertiary: #8895a7;
+            --text-muted: #6b7280;
+            --text-accent: #00f5ff;
+            
+            --border-primary: rgba(255, 255, 255, 0.1);
+            --border-secondary: rgba(255, 255, 255, 0.05);
+            --border-glow: rgba(0, 245, 255, 0.4);
+            --border-glow-strong: rgba(0, 245, 255, 0.6);
+            
+            --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.25);
+            --shadow-2xl: 0 25px 50px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 20px rgba(0, 245, 255, 0.3);
+            --shadow-glow-strong: 0 0 40px rgba(0, 245, 255, 0.5);
+            --shadow-glow-ultra: 0 0 60px rgba(0, 245, 255, 0.8);
+            
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-3xl: 32px;
+            
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-slow: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
 
-    body {
-      font-family: 'Orbitron', sans-serif;
-      background: radial-gradient(circle at top, #0f0f0f 0%, #000 100%);
-      color: #0ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      overflow: hidden;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .chat-container {
-      width: 420px;
-      height: 600px;
-      background: #111;
-      border: 2px solid #0ff;
-      border-radius: 20px;
-      box-shadow: 0 0 25px #0ff, 0 0 40px #0ff inset, 0 0 60px #0ff;
-      display: flex;
-      flex-direction: column;
-      position: relative;
-      padding: 20px;
-      backdrop-filter: blur(6px);
-      transform-style: preserve-3d;
-    }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: 
+                radial-gradient(circle at 25% 25%, rgba(0, 245, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 50% 50%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+                conic-gradient(from 45deg at 50% 50%, #0a0a0a 0deg, #111111 90deg, #1a1a1a 180deg, #111111 270deg, #0a0a0a 360deg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
 
-    .chat-box {
-      flex: 1;
-      overflow-y: auto;
-      background: #1a1a1a;
-      padding: 10px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-      box-shadow: inset 0 0 15px #0ff;
-    }
+        /* Advanced Background Effects */
+        .bg-effects {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            overflow: hidden;
+            pointer-events: none;
+        }
 
-    .message {
-      display: inline-block;
-      padding: 10px 14px;
-      margin: 10px 0;
-      border-radius: 12px;
-      max-width: 80%;
-      width: fit-content;
-      word-wrap: break-word;
-      clear: both;
-      animation: fadeInUp 0.3s ease-in-out;
-    }
+        .floating-orb {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            opacity: 0.1;
+            animation: float 25s infinite ease-in-out;
+            filter: blur(60px);
+        }
 
-    .user-message {
-      background: #0ff;
-      color: #000;
-      margin-left: auto;
-      box-shadow: 0 0 15px #0ff;
-    }
+        .floating-orb:nth-child(1) {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            left: -200px;
+            animation-delay: 0s;
+        }
 
-    .ai-response {
-      background: #222;
-      color: #0ff;
-      margin-right: auto;
-      box-shadow: 0 0 10px #0ff inset;
-    }
+        .floating-orb:nth-child(2) {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            right: -150px;
+            animation-delay: -8s;
+        }
 
-    .input-container {
-      display: flex;
-      gap: 10px;
-      align-items: center;
-    }
+        .floating-orb:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            bottom: -125px;
+            left: 30%;
+            animation-delay: -16s;
+        }
 
-    textarea {
-      flex: 1;
-      resize: none;
-      background: #111;
-      color: #0ff;
-      border: 2px solid #0ff;
-      border-radius: 10px;
-      padding: 10px;
-      font-size: 14px;
-      outline: none;
-      box-shadow: 0 0 10px #0ff inset;
-    }
+        .floating-orb:nth-child(4) {
+            width: 200px;
+            height: 200px;
+            top: 20%;
+            left: 60%;
+            animation-delay: -24s;
+        }
 
-    button {
-      background: #0ff;
-      border: none;
-      color: #000;
-      padding: 10px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      font-size: 16px;
-      box-shadow: 0 0 15px #0ff;
-      transition: 0.3s;
-    }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            25% { transform: translateY(-30px) translateX(20px) rotate(90deg); }
+            50% { transform: translateY(-60px) translateX(-10px) rotate(180deg); }
+            75% { transform: translateY(-30px) translateX(-20px) rotate(270deg); }
+        }
 
-    button:hover {
-      background: #00e6e6;
-      box-shadow: 0 0 25px #00e6e6;
-    }
+        /* Animated Grid */
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.03;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.2) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.2) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridMove 40s linear infinite;
+        }
 
-    .logo {
-      text-align: center;
-      font-size: 24px;
-      color: #0ff;
-      margin-bottom: 10px;
-      text-shadow: 0 0 10px #0ff;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 10px;
-    }
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(60px, 60px); }
+        }
 
-    .logo i {
-      font-size: 28px;
-    }
+        /* Particle System */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
 
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--primary);
+            border-radius: 50%;
+            animation: particleFloat 20s infinite linear;
+            opacity: 0.4;
+        }
+
+        .particle:nth-child(odd) { 
+            background: var(--secondary);
+            animation-duration: 30s;
+        }
+
+        .particle:nth-child(3n) { 
+            background: var(--accent);
+            animation-duration: 25s;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                transform: translateY(100vh) translateX(0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.4; }
+            90% { opacity: 0.4; }
+            100% {
+                transform: translateY(-100px) translateX(100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Main Chat Container */
+        .chat-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+        }
+
+        /* Enhanced Header */
+        .chat-header {
+            padding: 24px 40px;
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border-primary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), var(--secondary), transparent);
+            opacity: 0.8;
+            animation: headerGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes headerGlow {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.8; }
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow-strong);
+            animation: logoPulse 3s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .logo-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: logoShimmer 2s infinite;
+        }
+
+        @keyframes logoPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes logoShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .logo-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+            text-shadow: 0 0 20px var(--primary-glow);
+            animation: titleGlow 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes titleGlow {
+            0% { text-shadow: 0 0 20px var(--primary-glow); }
+            100% { text-shadow: 0 0 30px var(--primary-glow), 0 0 40px var(--primary-glow); }
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            opacity: 0.8;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            background: var(--bg-glass-strong);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            font-size: 13px;
+            color: var(--text-secondary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: statusBlink 2s infinite;
+            box-shadow: 0 0 10px var(--success);
+        }
+
+        @keyframes statusBlink {
+            0%, 50% { opacity: 1; transform: scale(1); }
+            51%, 100% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        .header-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 18px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .header-btn:hover {
+            background: var(--bg-glass-ultra);
+            color: var(--primary);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--bg-glass);
+            border-radius: 4px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+            box-shadow: 0 0 10px var(--primary-glow);
+        }
+
+        /* Enhanced Message Styles */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            max-width: 80%;
+            animation: messageSlide 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+
+        .message.user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.ai-response {
+            align-self: flex-start;
+        }
+
+        @keyframes messageSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(30px) scale(0.8);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .message-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            font-weight: 600;
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .user-message .message-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        .ai-response .message-avatar {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: var(--text-primary);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5);
+        }
+
+        .message-avatar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            animation: avatarShimmer 3s infinite;
+        }
+
+        @keyframes avatarShimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .message-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message-bubble {
+            padding: 20px 24px;
+            border-radius: var(--radius-xl);
+            font-size: 15px;
+            line-height: 1.6;
+            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            word-wrap: break-word;
+        }
+
+        .user-message .message-bubble {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow-strong);
+            border-top-right-radius: 8px;
+        }
+
+        .ai-response .message-bubble {
+            background: var(--bg-glass-strong);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            border-top-left-radius: 8px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 8px;
+            opacity: 0.7;
+        }
+
+        .user-message .message-time {
+            text-align: right;
+        }
+
+        .ai-response .message-time {
+            text-align: left;
+        }
+
+        /* Enhanced Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            padding: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .typing-indicator.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 8px;
+            padding: 20px 24px;
+            background: var(--bg-glass-strong);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            border-top-left-radius: 8px;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .typing-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: typingBounce 1.6s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-15px); opacity: 1; }
+        }
+
+        /* Enhanced Input Area */
+        .chat-input {
+            padding: 30px 40px;
+            background: var(--bg-glass);
+            border-top: 1px solid var(--border-primary);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            position: relative;
+        }
+
+        .chat-input::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.6;
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            max-width: 100%;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 60px;
+            max-height: 150px;
+            padding: 20px 24px;
+            padding-right: 80px;
+            background: var(--bg-glass-ultra);
+            border: 2px solid var(--border-primary);
+            border-radius: var(--radius-2xl);
+            color: var(--text-primary);
+            font-size: 16px;
+            font-family: inherit;
+            line-height: 1.5;
+            resize: none;
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .message-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(0, 245, 255, 0.1), var(--shadow-glow);
+            transform: translateY(-2px);
+        }
+
+        .message-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+
+        .input-actions {
+            position: absolute;
+            right: 12px;
+            bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .input-btn:hover {
+            background: var(--bg-glass-strong);
+            color: var(--primary);
+            border-color: var(--border-glow);
+            transform: translateY(-1px);
+        }
+
+        .send-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: var(--radius-2xl);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            font-size: 24px;
+            box-shadow: var(--shadow-glow-strong);
+            flex-shrink: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .send-btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transition: all 0.6s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .send-btn:hover {
+            transform: translateY(-4px) scale(1.05);
+            box-shadow: var(--shadow-glow-ultra);
+        }
+
+        .send-btn:active::before {
+            width: 120px;
+            height: 120px;
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 80px 40px;
+            text-align: center;
+            animation: welcomeSlide 1s ease-out;
+        }
+
+        @keyframes welcomeSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .welcome-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-3xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 48px;
+            color: var(--bg-primary);
+            margin-bottom: 32px;
+            box-shadow: var(--shadow-glow-ultra);
+            animation: welcomeIconPulse 4s infinite;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-icon::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            animation: welcomeIconShimmer 3s infinite;
+        }
+
+        @keyframes welcomeIconPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes welcomeIconShimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        .welcome-title {
+            font-family: 'Orbitron', monospace;
+            font-size: 32px;
+            font-weight: 900;
+            color: var(--text-primary);
+            margin-bottom: 16px;
+            text-shadow: 0 0 30px var(--primary-glow);
+            animation: welcomeTitleGlow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes welcomeTitleGlow {
+            0% { text-shadow: 0 0 30px var(--primary-glow); }
+            100% { text-shadow: 0 0 50px var(--primary-glow), 0 0 70px var(--primary-glow); }
+        }
+
+        .welcome-subtitle {
+            font-size: 18px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 600px;
+        }
+
+        .welcome-suggestions {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            justify-content: center;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .suggestion-btn {
+            padding: 16px 24px;
+            background: var(--bg-glass-strong);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-weight: 500;
+        }
+
+        .suggestion-btn i {
+            font-size: 18px;
+            color: var(--primary);
+        }
+
+        .suggestion-btn:hover {
+            background: var(--bg-glass-ultra);
+            color: var(--primary);
+            border-color: var(--border-glow);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .chat-container {
+                max-width: 100%;
+            }
+            
+            .chat-messages {
+                padding: 30px;
+            }
+            
+            .message {
+                max-width: 85%;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .chat-header {
+                padding: 20px 24px;
+            }
+            
+            .logo-section {
+                gap: 16px;
+            }
+            
+            .logo-icon {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+            
+            .logo-title {
+                font-size: 20px;
+            }
+            
+            .header-actions {
+                gap: 12px;
+            }
+            
+            .header-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+            
+            .chat-messages {
+                padding: 24px;
+                gap: 20px;
+            }
+            
+            .message {
+                max-width: 90%;
+                gap: 16px;
+            }
+            
+            .message-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+            
+            .message-bubble {
+                padding: 16px 20px;
+                font-size: 14px;
+            }
+            
+            .chat-input {
+                padding: 24px;
+            }
+            
+            .input-container {
+                gap: 16px;
+            }
+            
+            .send-btn {
+                width: 52px;
+                height: 52px;
+                font-size: 20px;
+            }
+            
+            .welcome-message {
+                padding: 60px 24px;
+            }
+            
+            .welcome-icon {
+                width: 80px;
+                height: 80px;
+                font-size: 36px;
+            }
+            
+            .welcome-title {
+                font-size: 28px;
+            }
+            
+            .welcome-subtitle {
+                font-size: 16px;
+            }
+            
+            .welcome-suggestions {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .status-indicator {
+                display: none;
+            }
+            
+            .message-input {
+                padding-right: 70px;
+                min-height: 52px;
+            }
+            
+            .input-actions {
+                right: 10px;
+                bottom: 10px;
+            }
+            
+            .input-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            
+            .send-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+            
+            .welcome-message {
+                padding: 40px 20px;
+            }
+            
+            .welcome-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 28px;
+            }
+            
+            .welcome-title {
+                font-size: 24px;
+            }
+            
+            .welcome-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        /* Code Highlighting */
+        .message-bubble pre {
+            background: var(--bg-tertiary);
+            padding: 16px;
+            border-radius: var(--radius-lg);
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 14px;
+            margin: 12px 0;
+            border: 1px solid var(--border-primary);
+        }
+
+        .message-bubble code {
+            background: var(--bg-tertiary);
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            border: 1px solid var(--border-primary);
+        }
+    </style>
 </head>
 <body>
-  <div class="chat-container">
-    <div class="logo"><i class='bx bx-bot'></i> CoderX AI</div>
-    <div class="chat-box" id="chat-box"></div>
-    <div class="input-container">
-      <textarea id="user-message" placeholder="Ask anything..."></textarea>
-      <button id="send-btn"><i class='bx bx-send'></i></button>
+    <!-- Advanced Background Effects -->
+    <div class="bg-effects">
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
     </div>
-  </div>
+    <div class="grid-pattern"></div>
+    <div class="particles">
+        <div class="particle" style="left: 5%; animation-delay: 0s;"></div>
+        <div class="particle" style="left: 15%; animation-delay: 2s;"></div>
+        <div class="particle" style="left: 25%; animation-delay: 4s;"></div>
+        <div class="particle" style="left: 35%; animation-delay: 6s;"></div>
+        <div class="particle" style="left: 45%; animation-delay: 8s;"></div>
+        <div class="particle" style="left: 55%; animation-delay: 10s;"></div>
+        <div class="particle" style="left: 65%; animation-delay: 12s;"></div>
+        <div class="particle" style="left: 75%; animation-delay: 14s;"></div>
+        <div class="particle" style="left: 85%; animation-delay: 16s;"></div>
+        <div class="particle" style="left: 95%; animation-delay: 18s;"></div>
+        <div class="particle" style="left: 10%; animation-delay: 1s;"></div>
+        <div class="particle" style="left: 20%; animation-delay: 3s;"></div>
+        <div class="particle" style="left: 30%; animation-delay: 5s;"></div>
+        <div class="particle" style="left: 40%; animation-delay: 7s;"></div>
+        <div class="particle" style="left: 50%; animation-delay: 9s;"></div>
+        <div class="particle" style="left: 60%; animation-delay: 11s;"></div>
+        <div class="particle" style="left: 70%; animation-delay: 13s;"></div>
+        <div class="particle" style="left: 80%; animation-delay: 15s;"></div>
+        <div class="particle" style="left: 90%; animation-delay: 17s;"></div>
+    </div>
 
-  <script>
-    const chatBox = document.getElementById('chat-box');
-    const userInput = document.getElementById('user-message');
-    const sendBtn = document.getElementById('send-btn');
+    <!-- Main Chat Container -->
+    <div class="chat-container">
+        <!-- Enhanced Header -->
+        <div class="chat-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">CoderX AI</div>
+                    <div class="logo-subtitle">Next Generation Chat</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Online & Ready</span>
+                </div>
+                <div class="header-btn" onclick="clearChat()">
+                    <i class='bx bx-trash'></i>
+                </div>
+                <div class="header-btn" onclick="toggleSettings()">
+                    <i class='bx bx-cog'></i>
+                </div>
+                <div class="header-btn" onclick="toggleFullscreen()">
+                    <i class='bx bx-fullscreen'></i>
+                </div>
+            </div>
+        </div>
 
-    sendBtn.addEventListener('click', () => {
-      const msg = userInput.value.trim();
-      if (msg) {
-        addMessage('user-message', msg);
-        userInput.value = '';
-        sendMessage(msg);
-      }
-    });
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chat-box">
+            <!-- Welcome Message -->
+            <div class="welcome-message" id="welcome-message">
+                <div class="welcome-icon">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="welcome-title">Welcome to CoderX AI</div>
+                <div class="welcome-subtitle">
+                    Experience the future of AI conversation. Ask me anything about programming, development, technology, or any topic you're curious about.
+                </div>
+                <div class="welcome-suggestions">
+                    <div class="suggestion-btn" onclick="sendSuggestion('Help me debug this Python code')">
+                        <i class='bx bx-bug'></i>
+                        <span>Debug Code</span>
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Explain machine learning concepts')">
+                        <i class='bx bx-brain'></i>
+                        <span>Learn AI/ML</span>
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Build a REST API with Node.js')">
+                        <i class='bx bx-code-alt'></i>
+                        <span>Generate Code</span>
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Best practices for web development')">
+                        <i class='bx bx-book-open'></i>
+                        <span>Best Practices</span>
+                    </div>
+                </div>
+            </div>
 
-    function addMessage(type, content) {
-      const msg = document.createElement('div');
-      msg.className = 'message ' + type;
-      msg.innerHTML = content;
-      chatBox.appendChild(msg);
-      chatBox.scrollTop = chatBox.scrollHeight;
-    }
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="message-avatar">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
 
-    function sendMessage(message) {
-      fetch('/chat/', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: 'user_message=' + encodeURIComponent(message)
-      })
-      .then(res => res.text())
-      .then(reply => addMessage('ai-response', reply))
-      .catch(err => addMessage('ai-response', "<i>Error fetching response</i>"));
-    }
-  </script>
+        <!-- Enhanced Input Area -->
+        <div class="chat-input">
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="user-message" 
+                        class="message-input" 
+                        placeholder="Type your message... (Shift + Enter for new line)"
+                        rows="1"
+                    ></textarea>
+                    <div class="input-actions">
+                        <div class="input-btn" onclick="clearInput()">
+                            <i class='bx bx-x'></i>
+                        </div>
+                    </div>
+                </div>
+                <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const chatBox = document.getElementById('chat-box');
+        const userInput = document.getElementById('user-message');
+        const sendButton = document.getElementById('send-btn');
+        const typingIndicator = document.getElementById('typing-indicator');
+        const welcomeMessage = document.getElementById('welcome-message');
+
+        // Auto-resize textarea
+        userInput.addEventListener('input', function() {
+            this.style.height = 'auto';
+            this.style.height = Math.min(this.scrollHeight, 150) + 'px';
+            
+            // Enable/disable send button
+            sendButton.disabled = !this.value.trim();
+        });
+
+        // Handle Enter key
+        userInput.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+
+        // Send message function
+        function sendMessage() {
+            const message = userInput.value.trim();
+            if (!message) return;
+
+            // Hide welcome message
+            if (welcomeMessage) {
+                welcomeMessage.style.display = 'none';
+            }
+
+            // Add user message
+            addMessage('user-message', message);
+            
+            // Clear input
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            sendButton.disabled = true;
+
+            // Show typing indicator
+            showTypingIndicator();
+
+            // Send to Django backend
+            fetch('/chat/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': getCookie('csrftoken')
+                },
+                body: 'user_message=' + encodeURIComponent(message)
+            })
+            .then(response => response.text())
+            .then(reply => {
+                hideTypingIndicator();
+                addMessage('ai-response', reply);
+            })
+            .catch(error => {
+                hideTypingIndicator();
+                addMessage('ai-response', '<i class="bx bx-error-circle"></i> Sorry, I encountered an error. Please try again.');
+                console.error('Error:', error);
+            });
+        }
+
+        // Add message to chat
+        function addMessage(type, content) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            
+            const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            
+            messageDiv.innerHTML = `
+                <div class="message-avatar">
+                    ${type === 'user-message' ? '<i class="bx bx-user"></i>' : '<i class="bx bx-bot"></i>'}
+                </div>
+                <div class="message-content">
+                    <div class="message-bubble">
+                        ${content}
+                    </div>
+                    <div class="message-time">${currentTime}</div>
+                </div>
+            `;
+            
+            chatBox.appendChild(messageDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Show typing indicator
+        function showTypingIndicator() {
+            typingIndicator.classList.add('active');
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        // Hide typing indicator
+        function hideTypingIndicator() {
+            typingIndicator.classList.remove('active');
+        }
+
+        // Send suggestion
+        function sendSuggestion(suggestion) {
+            userInput.value = suggestion;
+            sendMessage();
+        }
+
+        // Clear chat
+        function clearChat() {
+            chatBox.innerHTML = `
+                <div class="welcome-message" id="welcome-message">
+                    <div class="welcome-icon">
+                        <i class='bx bx-bot'></i>
+                    </div>
+                    <div class="welcome-title">Welcome to CoderX AI</div>
+                    <div class="welcome-subtitle">
+                        Experience the future of AI conversation. Ask me anything about programming, development, technology, or any topic you're curious about.
+                    </div>
+                    <div class="welcome-suggestions">
+                        <div class="suggestion-btn" onclick="sendSuggestion('Help me debug this Python code')">
+                            <i class='bx bx-bug'></i>
+                            <span>Debug Code</span>
+                        </div>
+                        <div class="suggestion-btn" onclick="sendSuggestion('Explain machine learning concepts')">
+                            <i class='bx bx-brain'></i>
+                            <span>Learn AI/ML</span>
+                        </div>
+                        <div class="suggestion-btn" onclick="sendSuggestion('Build a REST API with Node.js')">
+                            <i class='bx bx-code-alt'></i>
+                            <span>Generate Code</span>
+                        </div>
+                        <div class="suggestion-btn" onclick="sendSuggestion('Best practices for web development')">
+                            <i class='bx bx-book-open'></i>
+                            <span>Best Practices</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="typing-indicator" id="typing-indicator">
+                    <div class="message-avatar">
+                        <i class='bx bx-bot'></i>
+                    </div>
+                    <div class="typing-dots">
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                        <div class="typing-dot"></div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Toggle settings (placeholder)
+        function toggleSettings() {
+            alert('Settings panel coming soon!');
+        }
+
+        // Toggle fullscreen
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen();
+            } else {
+                document.exitFullscreen();
+            }
+        }
+
+        // Clear input
+        function clearInput() {
+            userInput.value = '';
+            userInput.style.height = 'auto';
+            sendButton.disabled = true;
+            userInput.focus();
+        }
+
+        // Get CSRF token
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            userInput.focus();
+        });
+    </script>
 </body>
-    </html>
+</html>    height: 100%;
+            opacity: 0.02;
+            z-index: 0;
+            background-image: 
+                linear-gradient(rgba(0, 245, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 245, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: gridMove 30s linear infinite;
+        }
+
+        @keyframes gridMove {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, 50px); }
+        }
+
+        /* Main Container */
+        .chat-container {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            height: 100vh;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        /* Header */
+        .chat-header {
+            padding: 20px 30px;
+            background: var(--bg-glass);
+            border-bottom: 1px solid var(--border-primary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chat-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+            opacity: 0.6;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-lg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .logo-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .logo-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        .logo-subtitle {
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .header-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .header-btn:hover {
+            background: var(--bg-glass-strong);
+            color: var(--primary);
+            border-color: var(--border-glow);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .status-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: blink 2s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0.3; }
+        }
+
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            overflow-y: auto;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            scroll-behavior: smooth;
+        }
+
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: var(--bg-glass);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: var(--border-primary);
+            border-radius: 3px;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb:hover {
+            background: var(--primary);
+        }
+
+        /* Message Styles */
+        .message {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            max-width: 85%;
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .message.user-message {
+            align-self: flex-end;
+            flex-direction: row-reverse;
+        }
+
+        .message.ai-message {
+            align-self: flex-start;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .user-message .message-avatar {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .ai-message .message-avatar {
+            background: linear-gradient(135deg, var(--secondary), var(--accent));
+            color: var(--text-primary);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .message-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .message-bubble {
+            padding: 16px 20px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            line-height: 1.6;
+            position: relative;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .user-message .message-bubble {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--bg-primary);
+            box-shadow: var(--shadow-glow);
+            border-top-right-radius: 6px;
+        }
+
+        .ai-message .message-bubble {
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            color: var(--text-primary);
+            border-top-left-radius: 6px;
+        }
+
+        .message-time {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .user-message .message-time {
+            text-align: right;
+        }
+
+        .ai-message .message-time {
+            text-align: left;
+        }
+
+        /* Typing Indicator */
+        .typing-indicator {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 0;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: var(--transition);
+        }
+
+        .typing-indicator.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+            padding: 16px 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            border-top-left-radius: 6px;
+        }
+
+        .typing-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--primary);
+            animation: typing 1.4s infinite ease-in-out;
+        }
+
+        .typing-dot:nth-child(1) { animation-delay: 0s; }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typing {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.3; }
+            30% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        /* Input Area */
+        .chat-input {
+            padding: 20px 30px;
+            background: var(--bg-glass);
+            border-top: 1px solid var(--border-primary);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .input-container {
+            position: relative;
+            display: flex;
+            align-items: flex-end;
+            gap: 16px;
+            max-width: 100%;
+        }
+
+        .input-wrapper {
+            flex: 1;
+            position: relative;
+        }
+
+        .message-input {
+            width: 100%;
+            min-height: 52px;
+            max-height: 120px;
+            padding: 16px 20px;
+            padding-right: 60px;
+            background: var(--bg-glass-strong);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-xl);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            line-height: 1.4;
+            resize: none;
+            outline: none;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .message-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0, 245, 255, 0.1), var(--shadow-glow);
+        }
+
+        .message-input::placeholder {
+            color: var(--text-muted);
+        }
+
+        .input-actions {
+            position: absolute;
+            right: 8px;
+            bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .input-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-md);
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 16px;
+        }
+
+        .input-btn:hover {
+            background: var(--bg-glass-strong);
+            color: var(--primary);
+            border-color: var(--border-glow);
+        }
+
+        .send-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-xl);
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border: none;
+            color: var(--bg-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 20px;
+            box-shadow: var(--shadow-glow);
+            flex-shrink: 0;
+        }
+
+        .send-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-glow-strong);
+        }
+
+        .send-btn:active {
+            transform: translateY(0);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 30px;
+            text-align: center;
+            opacity: 0.8;
+        }
+
+        .welcome-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: var(--radius-2xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            color: var(--bg-primary);
+            margin-bottom: 24px;
+            box-shadow: var(--shadow-glow);
+            animation: pulse 3s infinite;
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+        }
+
+        .welcome-subtitle {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        .welcome-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            justify-content: center;
+            max-width: 600px;
+        }
+
+        .suggestion-btn {
+            padding: 12px 20px;
+            background: var(--bg-glass);
+            border: 1px solid var(--border-primary);
+            border-radius: var(--radius-lg);
+            color: var(--text-secondary);
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+
+        .suggestion-btn:hover {
+            background: var(--bg-glass-strong);
+            color: var(--primary);
+            border-color: var(--border-glow);
+            transform: translateY(-2px);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .chat-header {
+                padding: 16px 20px;
+            }
+            
+            .logo-section {
+                gap: 12px;
+            }
+            
+            .logo-icon {
+                width: 40px;
+                height: 40px;
+                font-size: 20px;
+            }
+            
+            .logo-title {
+                font-size: 18px;
+            }
+            
+            .header-actions {
+                gap: 8px;
+            }
+            
+            .header-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .chat-messages {
+                padding: 20px;
+                gap: 16px;
+            }
+            
+            .message {
+                max-width: 95%;
+                gap: 12px;
+            }
+            
+            .message-avatar {
+                width: 36px;
+                height: 36px;
+                font-size: 14px;
+            }
+            
+            .message-bubble {
+                padding: 12px 16px;
+                font-size: 13px;
+            }
+            
+            .chat-input {
+                padding: 16px 20px;
+            }
+            
+            .input-container {
+                gap: 12px;
+            }
+            
+            .send-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+            
+            .welcome-message {
+                padding: 40px 20px;
+            }
+            
+            .welcome-icon {
+                width: 64px;
+                height: 64px;
+                font-size: 28px;
+            }
+            
+            .welcome-title {
+                font-size: 20px;
+            }
+            
+            .welcome-subtitle {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .status-indicator {
+                display: none;
+            }
+            
+            .message-input {
+                padding-right: 50px;
+            }
+            
+            .input-actions {
+                right: 6px;
+                bottom: 6px;
+            }
+            
+            .input-btn {
+                width: 32px;
+                height: 32px;
+                font-size: 14px;
+            }
+            
+            .send-btn {
+                width: 44px;
+                height: 44px;
+                font-size: 16px;
+            }
+            
+            .welcome-suggestions {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .suggestion-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+        }
+
+        /* Dark mode enhancements */
+        .message-bubble pre {
+            background: var(--bg-tertiary);
+            padding: 12px;
+            border-radius: var(--radius-md);
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 13px;
+            margin: 8px 0;
+        }
+
+        .message-bubble code {
+            background: var(--bg-tertiary);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Elements -->
+    <div class="bg-elements">
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+        <div class="floating-orb"></div>
+    </div>
+    <div class="grid-lines"></div>
+
+    <!-- Main Chat Container -->
+    <div class="chat-container">
+        <!-- Header -->
+        <div class="chat-header">
+            <div class="logo-section">
+                <div class="logo-icon">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="logo-text">
+                    <div class="logo-title">CoderX AI</div>
+                    <div class="logo-subtitle">Advanced Chat Interface</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <div class="status-indicator">
+                    <div class="status-dot"></div>
+                    <span>Online</span>
+                </div>
+                <div class="header-btn" onclick="clearChat()">
+                    <i class='bx bx-trash'></i>
+                </div>
+                <div class="header-btn" onclick="toggleSettings()">
+                    <i class='bx bx-cog'></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- Chat Messages -->
+        <div class="chat-messages" id="chat-messages">
+            <!-- Welcome Message -->
+            <div class="welcome-message" id="welcome-message">
+                <div class="welcome-icon">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="welcome-title">Welcome to CoderX AI</div>
+                <div class="welcome-subtitle">
+                    Your advanced AI coding assistant. Ask me anything about programming, development, or technology.
+                </div>
+                <div class="welcome-suggestions">
+                    <div class="suggestion-btn" onclick="sendSuggestion('Help me debug my Python code')">
+                        <i class='bx bx-bug'></i> Debug Code
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Explain how React hooks work')">
+                        <i class='bx bx-book'></i> Learn Concepts
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Write a REST API in Node.js')">
+                        <i class='bx bx-code-alt'></i> Generate Code
+                    </div>
+                    <div class="suggestion-btn" onclick="sendSuggestion('Best practices for database design')">
+                        <i class='bx bx-data'></i> Best Practices
+                    </div>
+                </div>
+            </div>
+
+            <!-- Typing Indicator -->
+            <div class="typing-indicator" id="typing-indicator">
+                <div class="message-avatar">
+                    <i class='bx bx-bot'></i>
+                </div>
+                <div class="typing-dots">
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                    <div class="typing-dot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="chat-input">
+            <div class="input-container">
+                <div class="input-wrapper">
+                    <textarea 
+                        id="message-input" 
+                        class="message-input" 
+                        placeholder="Type your message here... (Shift + Enter for new line)"
+                        rows="1"
+                    ></textarea>
+                    <div class="input-actions">
+                        <div class="input-btn" onclick="attachFile()">
+                            <i class='bx bx-paperclip'></i>
+                        </div>
+                        <div class="input-btn" onclick="toggleVoice()">
+                            <i class='bx bx-microphone'></i>
+                        </div>
+                    </div>
+                </div>
+                <button class="send-btn" id="send-btn" onclick="sendMessage()">
+                    <i class='bx bx-send'></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</body>
+</html>

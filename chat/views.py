@@ -17,7 +17,7 @@ def chat_api(request):
         if user_message:
             try:
                 encoded_prompt = quote_plus(user_message)
-                api_url = f"https://coderx-api-a3hd.onrender.com/chat?prompt={encoded_prompt}"
+                api_url = f"https://coderx-api-cgra.onrender.com/chat?prompt={encoded_prompt}"
                 response = requests.get(api_url, timeout=35)
                 if response.status_code == 200:
                     data = response.json()
